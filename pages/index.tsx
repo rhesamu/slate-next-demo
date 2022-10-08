@@ -1,15 +1,23 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-import { createEditor, BaseEditor, Descendant } from 'slate'
+import { createEditor, BaseEditor, Editor, Transforms, Descendant } from 'slate'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 
-type CustomElement = { type: 'paragraph'; children: CustomText[] }
 type CustomText = { text: string; bold?: true }
+type CodeElement = {
+  type: 'code'
+  children: CustomText[]
+}
+type DefaultElement = {
+  type: 'paragraph'
+  children: CustomText[]
+}
+type CustomElement = CodeElement | DefaultElement
 
 declare module 'slate' {
   interface CustomTypes {
@@ -17,6 +25,22 @@ declare module 'slate' {
     Element: CustomElement
     Text: CustomText
   }
+}
+
+const CodeElement = props => {
+  return (
+    <pre {...props.attributes}>
+      <code>{props.children}</code>
+    </pre>
+  )
+}
+
+const DefaultElement = props => {
+  return (
+    <p {...props.attributes}>
+      {props.children}
+    </p>
+  )
 }
 
 const initialValue: Descendant[] = [
@@ -29,9 +53,39 @@ const initialValue: Descendant[] = [
 const SlateNextDemo: NextPage = () => {
   // Slate editor object that won't change across renders
   const [editor] = useState(() => withReact(createEditor()))
+
+  const renderElement = useCallback(props => {
+    switch(props.element.type) {
+      case 'code':
+        return <CodeElement {...props} />
+      default:
+        return <DefaultElement {...props} />
+    }
+  }, [])
+
+  const onKeyDown = event => {
+    const isCodeBlockShortcut = event.key === '`' && event.ctrlKey
+    if (isCodeBlockShortcut) {
+      event.preventDefault()
+
+      const [match] = Editor.nodes(editor, {
+        match: n => n.type === 'code',
+      })
+
+      Transforms.setNodes(
+        editor,
+        { type: match ? 'paragraph' : 'code' },
+        { match: n => Editor.isBlock(editor, n) }
+      )
+    }
+  }
+
   return (
     <Slate editor={editor} value={initialValue}>
-      <Editable />
+      <Editable
+        renderElement={renderElement}
+        onKeyDown={onKeyDown}
+      />
     </Slate>
   )
 }
