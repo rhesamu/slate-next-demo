@@ -1,0 +1,7 @@
+.baseButton {
+  cursor: pointer;
+  color: #000;
+}
+.active {
+  background-color: #ebebeb;
+}
