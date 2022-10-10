@@ -1,9 +1,11 @@
 import { useCallback, useState, useEffect, useMemo, KeyboardEvent } from 'react'
 import { createEditor, BaseEditor, Editor, Transforms, Descendant, Text } from 'slate'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
+import isHotkey from 'is-hotkey'
 
-import { CodeElement, DefaultElement, Leaf } from '../elements'
+import { Element, Leaf } from '../components'
 import { CustomEditor, saveToLocalStorage } from '../helpers'
+import { HOTKEYS } from '../config'
 
 type CustomText = { text: string; bold?: true }
 type CodeElement = {
@@ -58,35 +60,16 @@ export const useTextEditor = () => {
   //   }
   // }, [])
 
-  const renderElement = useCallback(props => {
-    switch(props.element.type) {
-      case 'code':
-        return <CodeElement {...props} />
-      default:
-        return <DefaultElement {...props} />
-    }
-  }, [])
-
-  const renderLeaf = useCallback(props => {
-    return <Leaf {...props} />
-  }, [])
+  const renderElement = useCallback(props => <Element {...props} />, [])
+  const renderLeaf = useCallback(props => <Leaf {...props} />, [])
 
   const onKeyDown = (event: KeyboardEvent) => {
-    if (!event.ctrlKey) {
-      return
-    }
-
-    switch (event.key) {
-      case '`': {
+    for (const hotkey in HOTKEYS) {
+      if (isHotkey(hotkey, event as any)) {
         event.preventDefault()
-        CustomEditor.toggleCodeBlock(editor)
+        const mark = HOTKEYS[hotkey]
+        CustomEditor.toggleMark(editor, mark)
       }
-      case 'b': {
-        event.preventDefault()
-        CustomEditor.toggleBoldMark(editor)
-      }
-      default:
-        break;
     }
   }
 
