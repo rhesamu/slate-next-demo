@@ -1,0 +1,10 @@
+.container {
+  margin: auto;
+  max-width: 50em;
+  padding: 2em 0;
+  background-color: #fff;
+}
+
+.editable {
+  padding: 2px 18px;
+}

@@ -13,7 +13,9 @@ const SlateNextDemo: NextPage = () => {
         <meta name="description" content="A text editor application using Slate and NextJS" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TextEditor />
+      <div className={styles.container}>
+        <TextEditor />
+      </div>
     </div>
   )
 }
