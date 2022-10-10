@@ -1,6 +1,7 @@
 .baseButton {
   cursor: pointer;
   color: #000;
+  padding: 4px 6px;
 }
 .active {
   background-color: #ebebeb;

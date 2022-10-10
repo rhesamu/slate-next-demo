@@ -1,6 +1,8 @@
 import { useSlate } from 'slate-react'
 import cx from 'classnames'
 
+import { Icon } from './Icon';
+
 import { CustomEditor } from '../helpers'
 import { TEXT_ALIGN_TYPES } from '../config'
 
@@ -33,7 +35,7 @@ export const MarkButton = ({ format }) => {
         CustomEditor.toggleMark(editor, format)
       }}
     >
-      <p>{format}</p>
+      <Icon format={format} />
     </BaseButton>
   )
 }
@@ -52,7 +54,7 @@ export const BlockButton = ({ format }) => {
         CustomEditor.toggleBlock(editor, format)
       }}
     >
-      <p>{format}</p>
+      <Icon format={format} />
     </BaseButton>
   )
 }
