@@ -12,18 +12,18 @@ const TextEditor = () => {
       <Slate editor={editor} value={initialValue} onChange={onChange}>
         <Toolbar>
           <MarkButton format="bold" />
-          <MarkButton format="italic" icon="format_italic" />
-          <MarkButton format="underline" icon="format_underlined" />
-          <MarkButton format="code" icon="code" />
-          <BlockButton format="heading-two" icon="looks_two" />
-          <BlockButton format="heading-one" icon="looks_one" />
-          <BlockButton format="numbered-list" icon="format_list_numbered" />
-          <BlockButton format="bulleted-list" icon="format_list_bulleted" />
-          <BlockButton format="left" icon="format_align_left" />
-          <BlockButton format="center" icon="format_align_center" />
-          <BlockButton format="right" icon="format_align_right" />
-          <BlockButton format="justify" icon="format_align_justify" />
-          <BlockButton format="block-quote" icon="format_quote" />
+          <MarkButton format="italic" />
+          <MarkButton format="underline" />
+          <MarkButton format="code" />
+          <BlockButton format="heading-two" />
+          <BlockButton format="heading-one" />
+          <BlockButton format="numbered-list" />
+          <BlockButton format="bulleted-list" />
+          <BlockButton format="left" />
+          <BlockButton format="center" />
+          <BlockButton format="right" />
+          <BlockButton format="justify" />
+          <BlockButton format="block-quote" />
         </Toolbar>
         <Editable
           className={styles.editable}
