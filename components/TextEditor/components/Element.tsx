@@ -1,3 +1,5 @@
+import styles from './Element.module.css'
+
 export const CodeElement = (props) => {
   return (
     <pre {...props.attributes}>
@@ -8,7 +10,7 @@ export const CodeElement = (props) => {
 
 export const BlockQuoteElement = (props) => {
   return (
-    <blockquote style={props.style} {...props.attributes}>
+    <blockquote style={props.style} className={styles.blockquote} {...props.attributes}>
       {props.children}
     </blockquote>
   )
