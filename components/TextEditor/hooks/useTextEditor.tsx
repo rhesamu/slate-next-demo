@@ -5,7 +5,7 @@ import isHotkey from 'is-hotkey'
 
 import { Element, Leaf } from '../components'
 import { CustomEditor, saveToLocalStorage } from '../helpers'
-import { HOTKEYS } from '../config'
+import { HOTKEYS, INITIAL_VALUE } from '../config'
 
 type CustomText = { text: string; bold?: true }
 type CodeElement = {
@@ -28,37 +28,6 @@ declare module 'slate' {
 
 export const useTextEditor = () => {
   const [editor] = useState(() => withReact(createEditor()))
-  const initialValue = [
-    {
-      type: 'paragraph',
-      children: [{ text: 'A line of text in a paragraph.' }],
-    },
-  ]
-  // const [initialValue, setInitialValue] = useState([
-  //   {
-  //     type: 'paragraph',
-  //     children: [{ text: 'A line of text in a paragraph.' }],
-  //   },
-  // ])
-  
-  // const initialValue = useMemo(() => {
-  //   const localStorageContent = localStorage.getItem('content') || '[]'
-  //   JSON.parse(localStorageContent) || [
-  //     {
-  //       type: 'paragraph',
-  //       children: [{ text: 'A line of text in a paragraph.' }],
-  //     },
-  //   ]
-  // }, [])
-
-  // useEffect(() => {
-  //   const content = localStorage.getItem('content');
-  //   console.log('getContent:', content)
-  //   if (content) {
-  //     console.log('conditional')
-  //     setInitialValue(JSON.parse(content))
-  //   }
-  // }, [])
 
   const renderElement = useCallback(props => <Element {...props} />, [])
   const renderLeaf = useCallback(props => <Leaf {...props} />, [])
@@ -79,7 +48,7 @@ export const useTextEditor = () => {
 
   return {
     editor,
-    initialValue,
+    initialValue: INITIAL_VALUE,
     renderElement,
     renderLeaf,
     onKeyDown,
